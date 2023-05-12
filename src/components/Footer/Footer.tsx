@@ -37,7 +37,7 @@ export const Footer: FC = () => {
 						/>
 					</Link>
 					<Link
-						href="https://github.com/danijel96/e-commerce-shop-app"
+						href="https://github.com/danijel96/admin-dashboard"
 						className="flex items-center gap-x-2 hover:underline"
 						title="See GitHub repo"
 					>

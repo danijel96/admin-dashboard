@@ -2,6 +2,61 @@
 @tailwind components;
 @tailwind utilities;
 
+.container {
+	max-width: 100%;
+	margin: 0 auto;
+	overflow-x: auto;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+th,
+td {
+	padding: 8px;
+	text-align: left;
+	border-bottom: 1px solid #ddd;
+}
+
+th {
+	background-color: #f2f2f2;
+}
+
+@media screen and (max-width: 600px) {
+	table {
+		border: 0;
+	}
+
+	table thead {
+		display: none;
+	}
+
+	table tr {
+		margin-bottom: 10px;
+		display: block;
+		border-bottom: 2px solid #ddd;
+	}
+
+	table td {
+		/*display: block;*/
+		text-align: right;
+		font-size: 13px;
+		border-bottom: 1px dotted #ccc;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	table td::before {
+		content: attr(data-label);
+		float: left;
+		font-weight: bold;
+		text-transform: uppercase;
+	}
+}
+
 body {
 	color: #000;
 }
@@ -15,5 +70,17 @@ body {
 	}
 	.btn-blue:hover {
 		@apply bg-blue-700;
+	}
+	.btn-red {
+		@apply bg-red-500 text-white;
+	}
+	.btn-red:hover {
+		@apply bg-red-700;
+	}
+	.btn-yellow {
+		@apply bg-yellow-500 text-white;
+	}
+	.btn-yellow:hover {
+		@apply bg-yellow-700;
 	}
 }
