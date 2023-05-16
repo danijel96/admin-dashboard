@@ -17,7 +17,7 @@ import { Employee } from 'common/contracts/employee';
 import {
 	editEmployeeAPI,
 	getEmployeeByIdAPI,
-} from 'common/services/api/hooks/getAllEmployees';
+} from 'common/services/api/employees';
 import { BackButton } from 'components/Atoms/BackButton';
 import { EmployeeForm } from 'components/Employee/EmployeeForm';
 import { MainLayout } from 'components/Layout/MainLayout';

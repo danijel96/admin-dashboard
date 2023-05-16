@@ -1,50 +1,45 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { NextPage } from 'next';
-import Head from 'next/head';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useMedia } from 'react-use';
 
 // internal imports
 import { BREAKPOINTS } from 'common/constants/global.contants';
-import { ROUTES } from 'common/constants/routes';
 import {
-	getAllEmployeesAPI,
-	softDeleteEmployeeAPI,
+	getDeletedEmployeesAPI,
+	permanentDeleteEmployeeAPI,
 } from 'common/services/api/employees';
 import { MainLayout } from 'components/Layout/MainLayout';
 import { ModalTypes } from 'components/Modal/ModalTypes';
 
-const Home: NextPage = () => {
-	const router = useRouter();
+const DeletedEmployees: NextPage = () => {
+	const isMobile = useMedia(`(max-width: ${BREAKPOINTS.SM})`, true);
 
-	const isMobile = useMedia(`(max-width: ${BREAKPOINTS.SM})`, true); // true is defaultState parameter for ssr to avoid hydration error
+	const router = useRouter();
 
 	const [employeeId, setEmployeeId] = useState('');
 	const [deleteEmployeeModal, setDeleteEmployeeModal] = useState(false);
 
 	const employeesQuery = useQuery({
-		queryKey: ['employees'],
-		queryFn: getAllEmployeesAPI,
-		retry: 1,
+		queryKey: ['deleted-employees'],
+		queryFn: () => getDeletedEmployeesAPI(),
+		//onSuccess(data) {
+		//	setEmployee(data);
+		//},
 	});
 
-	const goToAddEmployee = () => {
-		router.push(ROUTES.ADD_EMPLOYEE);
-	};
-
-	const handleEditEmployee = (id: string) => {
-		router.push({
-			pathname: ROUTES.EDIT_EMPLOYEE,
-			query: { employeeId: id },
-		});
-	};
 	const queryClient = useQueryClient();
 
+	const permanentDeleteEmployeeMutation = useMutation({
+		mutationFn: permanentDeleteEmployeeAPI,
+		onSuccess(data) {
+			queryClient.invalidateQueries(['deleted-employees']);
+		},
+	});
+
 	const handleDeleteEmployee = async () => {
-		const response = await softDeleteEmployeeAPI(employeeId);
-		queryClient.invalidateQueries(['employees']);
+		permanentDeleteEmployeeMutation.mutate(employeeId, {});
 	};
 
 	const toggleDeleteEmployeeModal = () => {
@@ -52,19 +47,9 @@ const Home: NextPage = () => {
 	};
 
 	return (
-		<MainLayout wrapperClassName="employees-page min-w-[320px] bg-white">
-			<Head>
-				<title>Employees</title>
-			</Head>
-			<main className="grow">
-				<div className="my-3">
-					<button
-						onClick={goToAddEmployee}
-						className="btn btn-blue mr-2"
-					>
-						Add New Employee
-					</button>
-				</div>
+		<MainLayout wrapperClassName="deleted-employees-page mx-auto">
+			<main className="grow my-5">
+				<p className="mb-5">Deleted Employees</p>
 				<div className="container">
 					<table>
 						<thead>
@@ -94,19 +79,13 @@ const Home: NextPage = () => {
 										>
 											<div>
 												<button
-													onClick={() => handleEditEmployee(employee._id)}
-													className="btn btn-yellow mr-2"
-												>
-													Edit
-												</button>
-												<button
 													onClick={() => {
 														toggleDeleteEmployeeModal();
 														setEmployeeId(employee._id);
 													}}
 													className="btn btn-red"
 												>
-													Delete
+													Full Delete
 												</button>
 											</div>
 										</td>
@@ -118,7 +97,7 @@ const Home: NextPage = () => {
 										colSpan={6}
 										className="text-center py-5"
 									>
-										No employees data
+										No deleted employees data
 									</td>
 								</tr>
 							)}
@@ -126,12 +105,6 @@ const Home: NextPage = () => {
 					</table>
 					{/* NEED TO DO PAGINATION */}
 				</div>
-				<Link
-					href={ROUTES.DELETED_EMPLOYEES}
-					className="text-red-600 hover:underline mt-2 flex"
-				>
-					See list of deleted employees
-				</Link>
 			</main>
 			<ModalTypes
 				open={deleteEmployeeModal}
@@ -140,10 +113,10 @@ const Home: NextPage = () => {
 				warningButtonText="YES"
 				warningButtonAction={handleDeleteEmployee}
 			>
-				<p>Da li zelite obrisati ovog zaposlenog?</p>
+				<p>Da li zelite zauvek obrisati ovog zaposlenog?</p>
 			</ModalTypes>
 		</MainLayout>
 	);
 };
 
-export default Home;
+export default DeletedEmployees;

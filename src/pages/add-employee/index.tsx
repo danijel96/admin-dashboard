@@ -7,7 +7,7 @@ import { useMedia } from 'react-use';
 // internal imports
 import { BREAKPOINTS } from 'common/constants/global.contants';
 import { CreateEmployee } from 'common/contracts/api/payload/employee';
-import { createEmployeeAPI } from 'common/services/api/hooks/getAllEmployees';
+import { createEmployeeAPI } from 'common/services/api/employees';
 import { BackButton } from 'components/Atoms/BackButton';
 import { EmployeeForm } from 'components/Employee/EmployeeForm';
 import { MainLayout } from 'components/Layout/MainLayout';
