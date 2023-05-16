@@ -6,6 +6,7 @@ import {
 import { EmployeeResponseDTO } from 'common/contracts/api/response/employee';
 import { Employee } from 'common/contracts/employee';
 import { api } from '../config';
+import { AxiosResponse } from 'axios';
 
 /**
  * Get all employees.
@@ -35,47 +36,44 @@ export const getEmployeeByIdAPI = async (
  * @param {string} employeeId - string
  * @returns
  */
-export const softDeleteEmployeeAPI = async (employeeId: string) => {
-	try {
-		const response = await api.delete(
-			API_ENDPOINTS.EMPLOYEES.SOFT_DELETE + employeeId
-		);
-		return response;
-	} catch (error) {
-		return error;
-	}
+export const softDeleteEmployeeAPI = async (
+	employeeId: string
+): Promise<Employee> => {
+	const response = await api.delete(
+		API_ENDPOINTS.EMPLOYEES.SOFT_DELETE + employeeId
+	);
+	const data = response.data as Employee;
+	return data;
 };
 
 /**
  * Create employee.
- * @param {Object} data - CreateEmployee
+ * @param {Object} dataPayload - CreateEmployee
  * @returns
  */
-export const createEmployeeAPI = async (data: CreateEmployee) => {
-	try {
-		const response = await api.post(API_ENDPOINTS.EMPLOYEES.INDEX, data);
-		return response;
-	} catch (error) {
-		return error;
-	}
+export const createEmployeeAPI = async (
+	dataPayload: CreateEmployee
+): Promise<Employee> => {
+	const response = await api.post(API_ENDPOINTS.EMPLOYEES.INDEX, dataPayload);
+	const data = response.data as Employee;
+	return data;
 };
 
 /**
  * Edit employee.
- * @param {Object} data - UpdateEmployee
+ * @param {Object} dataPayload - UpdateEmployee
  * @returns
  */
-export const editEmployeeAPI = async (data: UpdateEmployee) => {
-	const employeeId = data._id;
-	try {
-		const response = await api.patch(
-			API_ENDPOINTS.EMPLOYEES.INDEX + '/' + employeeId,
-			data
-		);
-		return response;
-	} catch (error) {
-		return error;
-	}
+export const editEmployeeAPI = async (
+	dataPayload: UpdateEmployee
+): Promise<Employee> => {
+	const employeeId = dataPayload._id;
+	const response = await api.patch(
+		API_ENDPOINTS.EMPLOYEES.INDEX + '/' + employeeId,
+		dataPayload
+	);
+	const data = response.data as Employee;
+	return data;
 };
 
 /**
@@ -93,13 +91,12 @@ export const getDeletedEmployeesAPI =
  * Permanent delete employee from deleted-employees with provided ID.
  * @param {string} employeeId - string
  */
-export const permanentDeleteEmployeeAPI = async (employeeId: string) => {
-	try {
-		const response = await api.delete(
-			API_ENDPOINTS.EMPLOYEES.PERMANENT_DELETE + employeeId
-		);
-		return response;
-	} catch (error) {
-		return error;
-	}
+export const permanentDeleteEmployeeAPI = async (
+	employeeId: string
+): Promise<Employee> => {
+	const response = await api.delete(
+		API_ENDPOINTS.EMPLOYEES.PERMANENT_DELETE + employeeId
+	);
+	const data = response.data as Employee;
+	return data;
 };

@@ -1,11 +1,15 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { toast } from 'react-hot-toast';
 import { useMedia } from 'react-use';
 
 // internal imports
+import { QUERY_KEYS } from 'common/constants/api.constants';
 import { BREAKPOINTS } from 'common/constants/global.contants';
+import { ResponseErrorDTO } from 'common/contracts/api/response/error.contracts';
 import {
 	getDeletedEmployeesAPI,
 	permanentDeleteEmployeeAPI,
@@ -22,24 +26,32 @@ const DeletedEmployees: NextPage = () => {
 	const [deleteEmployeeModal, setDeleteEmployeeModal] = useState(false);
 
 	const employeesQuery = useQuery({
-		queryKey: ['deleted-employees'],
+		queryKey: [QUERY_KEYS.DELETED_EMPLOYEES],
 		queryFn: () => getDeletedEmployeesAPI(),
-		//onSuccess(data) {
-		//	setEmployee(data);
-		//},
 	});
 
 	const queryClient = useQueryClient();
 
 	const permanentDeleteEmployeeMutation = useMutation({
 		mutationFn: permanentDeleteEmployeeAPI,
-		onSuccess(data) {
-			queryClient.invalidateQueries(['deleted-employees']);
-		},
 	});
 
 	const handleDeleteEmployee = async () => {
-		permanentDeleteEmployeeMutation.mutate(employeeId, {});
+		permanentDeleteEmployeeMutation.mutate(employeeId, {
+			onSuccess() {
+				toast.success('Successfully permanently deleted employee!', {
+					id: 'deleteEmployee',
+				});
+				queryClient.invalidateQueries([QUERY_KEYS.DELETED_EMPLOYEES]);
+			},
+			onError(error) {
+				const axiosError = error as AxiosError<ResponseErrorDTO>;
+				const errorMessage = axiosError?.message ?? 'Unknown error occurred';
+				toast.error(errorMessage, {
+					id: 'deleteEmployeeError',
+				});
+			},
+		});
 	};
 
 	const toggleDeleteEmployeeModal = () => {
@@ -47,7 +59,10 @@ const DeletedEmployees: NextPage = () => {
 	};
 
 	return (
-		<MainLayout wrapperClassName="deleted-employees-page mx-auto">
+		<MainLayout
+			wrapperClassName="deleted-employees-page mx-auto"
+			headTitle="Deleted Employees"
+		>
 			<main className="grow my-5">
 				<p className="mb-5">Deleted Employees</p>
 				<div className="container">

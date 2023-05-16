@@ -6,3 +6,8 @@ export interface HTTPExceptionDTO {
 	errors?: Record<string, string>;
 	details?: string;
 }
+
+export interface ResponseErrorDTO {
+	message: string;
+	statusCode: number;
+}

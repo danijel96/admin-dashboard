@@ -1,12 +1,14 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import { NextPage } from 'next';
-import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { toast } from 'react-hot-toast';
 import { useMedia } from 'react-use';
 
 // internal imports
+import { QUERY_KEYS } from 'common/constants/api.constants';
 import { BREAKPOINTS } from 'common/constants/global.contants';
 import { ROUTES } from 'common/constants/routes';
 import {
@@ -15,19 +17,25 @@ import {
 } from 'common/services/api/employees';
 import { MainLayout } from 'components/Layout/MainLayout';
 import { ModalTypes } from 'components/Modal/ModalTypes';
+import { ResponseErrorDTO } from 'common/contracts/api/response/error.contracts';
 
 const Home: NextPage = () => {
-	const router = useRouter();
-
 	const isMobile = useMedia(`(max-width: ${BREAKPOINTS.SM})`, true); // true is defaultState parameter for ssr to avoid hydration error
+
+	const router = useRouter();
 
 	const [employeeId, setEmployeeId] = useState('');
 	const [deleteEmployeeModal, setDeleteEmployeeModal] = useState(false);
 
 	const employeesQuery = useQuery({
-		queryKey: ['employees'],
+		queryKey: [QUERY_KEYS.EMPLOYEES],
 		queryFn: getAllEmployeesAPI,
 		retry: 1,
+		refetchOnMount: true,
+	});
+
+	const deleteEmployeeMutation = useMutation({
+		mutationFn: softDeleteEmployeeAPI,
 	});
 
 	const goToAddEmployee = () => {
@@ -42,9 +50,22 @@ const Home: NextPage = () => {
 	};
 	const queryClient = useQueryClient();
 
-	const handleDeleteEmployee = async () => {
-		const response = await softDeleteEmployeeAPI(employeeId);
-		queryClient.invalidateQueries(['employees']);
+	const handleDeleteEmployee = () => {
+		deleteEmployeeMutation.mutate(employeeId, {
+			onSuccess() {
+				toast.success('Successfully deleted employee!', {
+					id: 'deleteEmployee',
+				});
+				queryClient.invalidateQueries([QUERY_KEYS.EMPLOYEES]);
+			},
+			onError(error) {
+				const axiosError = error as AxiosError<ResponseErrorDTO>;
+				const errorMessage = axiosError?.message ?? 'Unknown error occurred';
+				toast.error(errorMessage, {
+					id: 'deleteEmployeeError',
+				});
+			},
+		});
 	};
 
 	const toggleDeleteEmployeeModal = () => {
@@ -52,10 +73,10 @@ const Home: NextPage = () => {
 	};
 
 	return (
-		<MainLayout wrapperClassName="employees-page min-w-[320px] bg-white">
-			<Head>
-				<title>Employees</title>
-			</Head>
+		<MainLayout
+			wrapperClassName="employees-page min-w-[320px] bg-white"
+			headTitle="Employees"
+		>
 			<main className="grow">
 				<div className="my-3">
 					<button
