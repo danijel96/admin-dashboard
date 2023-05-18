@@ -11,7 +11,7 @@ import {
 	DEFAULT_PAGE_SIZE_LIMIT,
 	QUERY_KEYS,
 } from 'common/constants/api.constants';
-import { BREAKPOINTS } from 'common/constants/global.contants';
+import { BREAKPOINTS } from 'common/constants/global.constants';
 import { ResponseErrorDTO } from 'common/contracts/api/response/error.contracts';
 import {
 	getDeletedEmployeesAPI,
@@ -20,6 +20,8 @@ import {
 import { MainLayout } from 'components/Layout/MainLayout';
 import { ModalTypes } from 'components/Modal/ModalTypes';
 import { Pagination } from 'components/Pagination/Pagination';
+import { Table } from 'components/Table/Table';
+import { tableHeads } from 'common/constants/table.constants';
 
 const DeletedEmployees: NextPage = () => {
 	const isMobile = useMedia(`(max-width: ${BREAKPOINTS.SM})`, true);
@@ -45,7 +47,7 @@ const DeletedEmployees: NextPage = () => {
 		mutationFn: permanentDeleteEmployeeAPI,
 	});
 
-	const handleDeleteEmployee = async () => {
+	const handleDeleteEmployee = () => {
 		permanentDeleteEmployeeMutation.mutate(employeeId, {
 			onSuccess() {
 				toast.success('Successfully permanently deleted employee!', {
@@ -74,69 +76,49 @@ const DeletedEmployees: NextPage = () => {
 		>
 			<main className="grow my-5">
 				<p className="mb-5">Deleted Employees</p>
-				<div className="container">
-					<table>
-						<thead>
-							<tr className="[&>*]:truncate">
-								<th>Name</th>
-								<th>Email</th>
-								<th>Phone number</th>
-								<th>Date of employment</th>
-								<th>City</th>
-								<th>Actions</th>
-							</tr>
-						</thead>
-						<tbody>
-							{employeesQuery.data?.employees?.length ? (
-								employeesQuery.data?.employees.map((employee) => (
-									<tr key={employee._id}>
-										<td data-label="Name">{employee.name}</td>
-										<td data-label="Email">{employee.email}</td>
-										<td data-label="Phone number">{employee.phoneNumber}</td>
-										<td data-label="Date of employment">
-											{employee.dateOfEmployment}
-										</td>
-										<td data-label="City">{employee.homeAddress.city}</td>
-										<td
-											data-label="Actions"
-											className="min-w-[170px]"
+				<Table
+					theads={tableHeads}
+					dataCount={employeesQuery.data?.employees?.length ?? 0}
+					noDataText="No deleted employees data"
+				>
+					{employeesQuery.data?.employees?.length &&
+						employeesQuery.data?.employees.map((employee) => (
+							<tr key={employee._id}>
+								<td data-label="Name">{employee.name}</td>
+								<td data-label="Email">{employee.email}</td>
+								<td data-label="Phone number">{employee.phoneNumber}</td>
+								<td data-label="Date of employment">
+									{employee.dateOfEmployment}
+								</td>
+								<td data-label="City">{employee.homeAddress.city}</td>
+								<td
+									data-label="Actions"
+									className="min-w-[170px]"
+								>
+									<div>
+										<button
+											onClick={() => {
+												toggleDeleteEmployeeModal();
+												setEmployeeId(employee._id);
+											}}
+											className="btn btn-red"
 										>
-											<div>
-												<button
-													onClick={() => {
-														toggleDeleteEmployeeModal();
-														setEmployeeId(employee._id);
-													}}
-													className="btn btn-red"
-												>
-													Full Delete
-												</button>
-											</div>
-										</td>
-									</tr>
-								))
-							) : (
-								<tr>
-									<td
-										colSpan={6}
-										className="text-center py-5"
-									>
-										No deleted employees data
-									</td>
-								</tr>
-							)}
-						</tbody>
-					</table>
-					{employeesQuery.data && employeesQuery.data?.count !== 0 && (
-						<Pagination
-							className="pagination-bar mt-10"
-							currentPage={currentPage || 1}
-							totalCount={employeesQuery.data?.count}
-							onPageChange={(p) => setCurrentPage(p)}
-							pageSize={DEFAULT_PAGE_SIZE_LIMIT}
-						/>
-					)}
-				</div>
+											Full Delete
+										</button>
+									</div>
+								</td>
+							</tr>
+						))}
+				</Table>
+				{employeesQuery.data && employeesQuery.data?.count !== 0 && (
+					<Pagination
+						className="pagination-bar mt-10"
+						currentPage={currentPage || 1}
+						totalCount={employeesQuery.data?.count}
+						onPageChange={(p) => setCurrentPage(p)}
+						pageSize={DEFAULT_PAGE_SIZE_LIMIT}
+					/>
+				)}
 			</main>
 			<ModalTypes
 				open={deleteEmployeeModal}

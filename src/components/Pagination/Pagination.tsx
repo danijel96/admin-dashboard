@@ -42,7 +42,6 @@ export const Pagination: FC<PaginationProps> = ({
 
 	let lastPage = paginationRange[paginationRange.length - 1];
 
-    console.log(lastPage, 'lastPage')
 	return (
 		<ul className={clsx('pagination-container', className)}>
 			<li

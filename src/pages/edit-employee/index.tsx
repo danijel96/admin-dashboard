@@ -9,7 +9,7 @@ import { useMedia } from 'react-use';
 
 // internal imports
 import { QUERY_KEYS } from 'common/constants/api.constants';
-import { BREAKPOINTS } from 'common/constants/global.contants';
+import { BREAKPOINTS } from 'common/constants/global.constants';
 import { ROUTES } from 'common/constants/routes';
 import { CreateEmployee } from 'common/contracts/api/payload/employee';
 import { ResponseErrorDTO } from 'common/contracts/api/response/error.contracts';

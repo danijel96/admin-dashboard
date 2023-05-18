@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { FC } from 'react';
 
 // internal imports
-import { BREAKPOINTS } from 'common/constants/global.contants';
+import { BREAKPOINTS } from 'common/constants/global.constants';
 import { currentYear } from 'common/utils/date.utils';
 import { GithubLogo, LinkedinLogo } from 'components/Icons/Icons';
 import { useMedia } from 'react-use';

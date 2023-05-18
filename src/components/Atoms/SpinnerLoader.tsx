@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { FC } from 'react';
 
 // internal imports
-import { LOADING_TEXT } from 'common/constants/global.contants';
+import { LOADING_TEXT } from 'common/constants/global.constants';
 
 interface SpinnerLoaderProps {
 	title?: string;

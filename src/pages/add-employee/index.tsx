@@ -7,7 +7,7 @@ import { toast } from 'react-hot-toast';
 import { useMedia } from 'react-use';
 
 // internal imports
-import { BREAKPOINTS } from 'common/constants/global.contants';
+import { BREAKPOINTS } from 'common/constants/global.constants';
 import { ROUTES } from 'common/constants/routes';
 import { CreateEmployee } from 'common/contracts/api/payload/employee';
 import { ResponseErrorDTO } from 'common/contracts/api/response/error.contracts';
@@ -28,7 +28,7 @@ const AddEmployee: NextPage = () => {
 		mutationFn: createEmployeeAPI,
 	});
 
-	const createEmployee: SubmitHandler<CreateEmployee> = async (
+	const createEmployee: SubmitHandler<CreateEmployee> = (
 		formData: CreateEmployee
 	) => {
 		createEmployeeMutation.mutate(formData, {

@@ -55,7 +55,7 @@ export const EmployeeForm: FC<EmployeeFormProps> = ({
 		handleSubmit,
 		formState: { errors },
 	} = useForm<CreateEmployee>({
-		defaultValues: async () => getDefaultValues(),
+		defaultValues: () => getDefaultValues(),
 		resolver: yupResolver(validationSchema),
 	});
 
