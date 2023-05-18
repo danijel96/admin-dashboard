@@ -1,5 +1,7 @@
 export const DEFAULT_ERROR_MESSAGE = 'Something went wrong.';
 
+export const DEFAULT_PAGE_SIZE_LIMIT = 2;
+
 export const QUERY_KEYS = {
 	EMPLOYEES: 'employees',
 	DELETED_EMPLOYEES: 'deleted-employees',

@@ -3,17 +3,22 @@ import {
 	CreateEmployee,
 	UpdateEmployee,
 } from 'common/contracts/api/payload/employee';
+import { PaginationPayload } from 'common/contracts/api/payload/pagination';
 import { EmployeeResponseDTO } from 'common/contracts/api/response/employee';
 import { Employee } from 'common/contracts/employee';
 import { api } from '../config';
-import { AxiosResponse } from 'axios';
 
 /**
- * Get all employees.
+ * Get paginated list of employees.
+ * @param {Object} payload  - PaginationPayload
  * @returns EmployeeResponseDTO data
  */
-export const getAllEmployeesAPI = async (): Promise<EmployeeResponseDTO> => {
-	const response = await api.get(API_ENDPOINTS.EMPLOYEES.INDEX);
+export const getAllEmployeesAPI = async (
+	payload: PaginationPayload
+): Promise<EmployeeResponseDTO> => {
+	const response = await api.get(API_ENDPOINTS.EMPLOYEES.INDEX, {
+		params: payload,
+	});
 	const data = response.data as EmployeeResponseDTO;
 	return data;
 };
@@ -77,15 +82,19 @@ export const editEmployeeAPI = async (
 };
 
 /**
- * Get list of deleted employees.
+ * Get paginated list of deleted employees.
+ * @param {Object} payload  - PaginationPayload
  * @returns EmployeeResponseDTO
  */
-export const getDeletedEmployeesAPI =
-	async (): Promise<EmployeeResponseDTO> => {
-		const response = await api.get(API_ENDPOINTS.EMPLOYEES.DELETED);
-		const data = response.data as EmployeeResponseDTO;
-		return data;
-	};
+export const getDeletedEmployeesAPI = async (
+	payload: PaginationPayload
+): Promise<EmployeeResponseDTO> => {
+	const response = await api.get(API_ENDPOINTS.EMPLOYEES.DELETED, {
+		params: payload,
+	});
+	const data = response.data as EmployeeResponseDTO;
+	return data;
+};
 
 /**
  * Permanent delete employee from deleted-employees with provided ID.

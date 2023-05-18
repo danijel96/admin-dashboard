@@ -8,28 +8,34 @@ import { toast } from 'react-hot-toast';
 import { useMedia } from 'react-use';
 
 // internal imports
-import { QUERY_KEYS } from 'common/constants/api.constants';
+import {
+	DEFAULT_PAGE_SIZE_LIMIT,
+	QUERY_KEYS,
+} from 'common/constants/api.constants';
 import { BREAKPOINTS } from 'common/constants/global.contants';
 import { ROUTES } from 'common/constants/routes';
+import { ResponseErrorDTO } from 'common/contracts/api/response/error.contracts';
 import {
 	getAllEmployeesAPI,
 	softDeleteEmployeeAPI,
 } from 'common/services/api/employees';
 import { MainLayout } from 'components/Layout/MainLayout';
 import { ModalTypes } from 'components/Modal/ModalTypes';
-import { ResponseErrorDTO } from 'common/contracts/api/response/error.contracts';
+import { Pagination } from 'components/Pagination/Pagination';
 
 const Home: NextPage = () => {
 	const isMobile = useMedia(`(max-width: ${BREAKPOINTS.SM})`, true); // true is defaultState parameter for ssr to avoid hydration error
 
 	const router = useRouter();
 
+	const [currentPage, setCurrentPage] = useState(1);
 	const [employeeId, setEmployeeId] = useState('');
 	const [deleteEmployeeModal, setDeleteEmployeeModal] = useState(false);
 
 	const employeesQuery = useQuery({
-		queryKey: [QUERY_KEYS.EMPLOYEES],
-		queryFn: getAllEmployeesAPI,
+		queryKey: [QUERY_KEYS.EMPLOYEES, { page: currentPage }],
+		queryFn: () =>
+			getAllEmployeesAPI({ limit: DEFAULT_PAGE_SIZE_LIMIT, page: currentPage }),
 		retry: 1,
 		refetchOnMount: true,
 	});
@@ -71,6 +77,8 @@ const Home: NextPage = () => {
 	const toggleDeleteEmployeeModal = () => {
 		setDeleteEmployeeModal(!deleteEmployeeModal);
 	};
+
+	console.log(employeesQuery.data?.count, 'employeesQuery.data?.count');
 
 	return (
 		<MainLayout
@@ -145,7 +153,15 @@ const Home: NextPage = () => {
 							)}
 						</tbody>
 					</table>
-					{/* NEED TO DO PAGINATION */}
+					{employeesQuery.data && employeesQuery.data?.count !== 0 && (
+						<Pagination
+							className="pagination-bar mt-10"
+							currentPage={currentPage || 1}
+							totalCount={employeesQuery.data?.count}
+							onPageChange={(p) => setCurrentPage(p)}
+							pageSize={DEFAULT_PAGE_SIZE_LIMIT}
+						/>
+					)}
 				</div>
 				<Link
 					href={ROUTES.DELETED_EMPLOYEES}
