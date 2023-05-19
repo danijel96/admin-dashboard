@@ -32,7 +32,7 @@ export const getEmployeeByIdAPI = async (
 	employeeId: string
 ): Promise<Employee> => {
 	const response = await api.get(API_ENDPOINTS.EMPLOYEES.ID + employeeId);
-	const data = response.data as Employee;
+	const data = response.data.data as Employee;
 	return data;
 };
 
@@ -44,7 +44,7 @@ export const getEmployeeByIdAPI = async (
 export const softDeleteEmployeeAPI = async (
 	employeeId: string
 ): Promise<Employee> => {
-	const response = await api.delete(
+	const response = await api.put(
 		API_ENDPOINTS.EMPLOYEES.SOFT_DELETE + employeeId
 	);
 	const data = response.data as Employee;
@@ -73,7 +73,7 @@ export const editEmployeeAPI = async (
 	dataPayload: UpdateEmployee
 ): Promise<Employee> => {
 	const employeeId = dataPayload._id;
-	const response = await api.patch(
+	const response = await api.put(
 		API_ENDPOINTS.EMPLOYEES.INDEX + '/' + employeeId,
 		dataPayload
 	);

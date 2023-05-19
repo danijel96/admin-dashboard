@@ -68,6 +68,7 @@ const EditEmployee: NextPage = () => {
 			}
 		);
 	};
+	console.log(employeesQuery, 'employeesQuery');
 
 	return (
 		<MainLayout

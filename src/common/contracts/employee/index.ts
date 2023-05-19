@@ -13,7 +13,7 @@ export interface Employee {
 export interface EmployeeHomeAddress {
 	ZIPCode: string;
 	addressLine1: string;
-	addressLine2: string;
+	addressLine2?: string;
 	city: string;
 	_id?: string;
 }

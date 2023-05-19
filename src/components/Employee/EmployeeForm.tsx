@@ -16,7 +16,7 @@ const validationSchema = yup.object({
 	homeAddress: yup.object({
 		ZIPCode: yup.string().required('Required field'),
 		addressLine1: yup.string().required('Required field'),
-		addressLine2: yup.string().required('Required field'),
+		addressLine2: yup.string(),
 		city: yup.string().required('Required field'),
 	}),
 	name: yup.string().required('Required field'),

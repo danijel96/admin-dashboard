@@ -78,11 +78,11 @@ const DeletedEmployees: NextPage = () => {
 				<p className="mb-5">Deleted Employees</p>
 				<Table
 					theads={tableHeads}
-					dataCount={employeesQuery.data?.employees?.length ?? 0}
+					dataCount={employeesQuery.data?.data?.length ?? 0}
 					noDataText="No deleted employees data"
 				>
-					{employeesQuery.data?.employees?.length &&
-						employeesQuery.data?.employees.map((employee) => (
+					{employeesQuery.data?.data?.length &&
+						employeesQuery.data?.data.map((employee) => (
 							<tr key={employee._id}>
 								<td data-label="Name">{employee.name}</td>
 								<td data-label="Email">{employee.email}</td>
@@ -110,11 +110,11 @@ const DeletedEmployees: NextPage = () => {
 							</tr>
 						))}
 				</Table>
-				{employeesQuery.data && employeesQuery.data?.count !== 0 && (
+				{employeesQuery.data && employeesQuery.data?.totalResults !== 0 && (
 					<Pagination
 						className="pagination-bar mt-10"
 						currentPage={currentPage || 1}
-						totalCount={employeesQuery.data?.count}
+						totalCount={employeesQuery.data?.totalResults}
 						onPageChange={(p) => setCurrentPage(p)}
 						pageSize={DEFAULT_PAGE_SIZE_LIMIT}
 					/>

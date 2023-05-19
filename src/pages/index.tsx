@@ -80,6 +80,9 @@ const Home: NextPage = () => {
 		setDeleteEmployeeModal(!deleteEmployeeModal);
 	};
 
+	console.log(employeesQuery.data?.data, 'employeesQuery.data?.employees');
+	console.log(employeesQuery.data, 'employeesQuery.data');
+
 	return (
 		<MainLayout
 			wrapperClassName="employees-page min-w-[320px] bg-white"
@@ -97,10 +100,10 @@ const Home: NextPage = () => {
 				<Table
 					theads={tableHeads}
 					noDataText="No employees data"
-					dataCount={employeesQuery.data?.employees?.length ?? 0}
+					dataCount={employeesQuery.data?.data?.length ?? 0}
 				>
-					{employeesQuery.data?.employees?.length &&
-						employeesQuery.data?.employees.map((employee) => (
+					{employeesQuery.data?.data?.length &&
+						employeesQuery.data?.data.map((employee) => (
 							<tr key={employee._id}>
 								<td data-label="Name">{employee.name}</td>
 								<td data-label="Email">{employee.email}</td>
@@ -134,11 +137,11 @@ const Home: NextPage = () => {
 							</tr>
 						))}
 				</Table>
-				{employeesQuery.data && employeesQuery.data?.count !== 0 && (
+				{employeesQuery.data && employeesQuery.data?.totalResults !== 0 && (
 					<Pagination
 						className="pagination-bar mt-10"
 						currentPage={currentPage || 1}
-						totalCount={employeesQuery.data?.count}
+						totalCount={employeesQuery.data?.totalResults}
 						onPageChange={(p) => setCurrentPage(p)}
 						pageSize={DEFAULT_PAGE_SIZE_LIMIT}
 					/>

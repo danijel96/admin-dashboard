@@ -31,7 +31,13 @@ const AddEmployee: NextPage = () => {
 	const createEmployee: SubmitHandler<CreateEmployee> = (
 		formData: CreateEmployee
 	) => {
-		createEmployeeMutation.mutate(formData, {
+		const data: CreateEmployee = {
+			...formData,
+			dateOfBirth: new Date(formData.dateOfBirth).toDateString(),
+			dateOfEmployment: new Date(formData.dateOfEmployment).toDateString(),
+		};
+        console.log(data, 'datadatadata')
+		createEmployeeMutation.mutate(data, {
 			onSuccess() {
 				toast.success('Successfully added employee!', {
 					id: 'addEmployee',
