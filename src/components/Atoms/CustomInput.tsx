@@ -14,7 +14,6 @@ type ConditionalProps =
 			iconState?: boolean;
 	  };
 
-// interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 interface InputProps extends React.ComponentPropsWithoutRef<'input'> {
 	id: string;
 	className?: string;
@@ -43,8 +42,6 @@ export const CustomInput = forwardRef<HTMLInputElement, Props>(
 		},
 		ref
 	) => {
-		// if (icon && !iconPosition) iconPosition = 'right'
-
 		return (
 			<div
 				className={`custom-input flex flex-col w-full ${

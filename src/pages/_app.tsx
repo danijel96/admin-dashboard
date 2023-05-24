@@ -7,7 +7,6 @@ import toast, { ToastBar, Toaster } from 'react-hot-toast';
 import 'styles/globals.css';
 import 'styles/main.scss';
 
-//const queryClient = new QueryClient({defaultOptions: {queries: { staleTime: 1000 * 30}}});
 const queryClient = new QueryClient({
 	defaultOptions: {
 		queries: {

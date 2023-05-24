@@ -62,10 +62,7 @@ export const usePagination = ({
 					totalPageCount
 				);
 				return [firstPageIndex, DOTS, ...rightRange];
-			}
-
-			//if (shouldShowLeftDots && shouldShowRightDots) {
-			else {
+			} else {
 				let middleRange = range(leftSiblingIndex, rightSiblingIndex);
 				return [firstPageIndex, DOTS, ...middleRange, DOTS, lastPageIndex];
 			}

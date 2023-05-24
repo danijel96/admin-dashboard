@@ -3,9 +3,9 @@ import { AxiosError } from 'axios';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { toast } from 'react-hot-toast';
-import { useMedia } from 'react-use';
+import { useDebounce, useMedia } from 'react-use';
 
 // internal imports
 import {
@@ -14,16 +14,18 @@ import {
 } from 'common/constants/api.constants';
 import { BREAKPOINTS } from 'common/constants/global.constants';
 import { ROUTES } from 'common/constants/routes';
+import { tableHeads } from 'common/constants/table.constants';
 import { ResponseErrorDTO } from 'common/contracts/api/response/error.contracts';
 import {
 	getAllEmployeesAPI,
 	softDeleteEmployeeAPI,
 } from 'common/services/api/employees';
+import { CustomInput } from 'components/Atoms/CustomInput';
+import { SpinnerLoader } from 'components/Atoms/SpinnerLoader';
 import { MainLayout } from 'components/Layout/MainLayout';
 import { ModalTypes } from 'components/Modal/ModalTypes';
 import { Pagination } from 'components/Pagination/Pagination';
 import { Table } from 'components/Table/Table';
-import { tableHeads } from 'common/constants/table.constants';
 
 const Home: NextPage = () => {
 	const isMobile = useMedia(`(max-width: ${BREAKPOINTS.SM})`, true); // true is defaultState parameter for ssr to avoid hydration error
@@ -34,10 +36,29 @@ const Home: NextPage = () => {
 	const [employeeId, setEmployeeId] = useState('');
 	const [deleteEmployeeModal, setDeleteEmployeeModal] = useState(false);
 
+	// Filter input for searching data from table
+	const [search, setSearch] = useState('');
+	const [debouncedSearch, setDebouncedSearch] = useState('');
+
+	useDebounce(
+		() => {
+			setDebouncedSearch(search);
+		},
+		1000,
+		[search]
+	);
+
 	const employeesQuery = useQuery({
-		queryKey: [QUERY_KEYS.EMPLOYEES, { page: currentPage }],
+		queryKey: [
+			QUERY_KEYS.EMPLOYEES,
+			{ page: currentPage, search: debouncedSearch },
+		],
 		queryFn: () =>
-			getAllEmployeesAPI({ limit: DEFAULT_PAGE_SIZE_LIMIT, page: currentPage }),
+			getAllEmployeesAPI({
+				limit: DEFAULT_PAGE_SIZE_LIMIT,
+				page: currentPage,
+				search: debouncedSearch,
+			}),
 		retry: 1,
 		refetchOnMount: true,
 	});
@@ -80,8 +101,13 @@ const Home: NextPage = () => {
 		setDeleteEmployeeModal(!deleteEmployeeModal);
 	};
 
-	console.log(employeesQuery.data?.data, 'employeesQuery.data?.employees');
-	console.log(employeesQuery.data, 'employeesQuery.data');
+	const handleSearchFilter = (e: ChangeEvent<HTMLInputElement>) => {
+		setSearch(e.target.value);
+	};
+
+	if (employeesQuery.isLoading) {
+		return <SpinnerLoader />;
+	}
 
 	return (
 		<MainLayout
@@ -97,6 +123,13 @@ const Home: NextPage = () => {
 						Add New Employee
 					</button>
 				</div>
+				<CustomInput
+					id="search"
+					className="max-w-xs mb-3"
+					placeholder="Search by name, email, phone or city"
+					value={search}
+					onChange={handleSearchFilter}
+				/>
 				<Table
 					theads={tableHeads}
 					noDataText="No employees data"

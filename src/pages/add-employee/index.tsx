@@ -18,8 +18,6 @@ import { MainLayout } from 'components/Layout/MainLayout';
 import { QUERY_KEYS } from 'common/constants/api.constants';
 
 const AddEmployee: NextPage = () => {
-	const isMobile = useMedia(`(max-width: ${BREAKPOINTS.SM})`, true);
-
 	const router = useRouter();
 
 	const queryClient = useQueryClient();
@@ -36,7 +34,6 @@ const AddEmployee: NextPage = () => {
 			dateOfBirth: new Date(formData.dateOfBirth).toDateString(),
 			dateOfEmployment: new Date(formData.dateOfEmployment).toDateString(),
 		};
-        console.log(data, 'datadatadata')
 		createEmployeeMutation.mutate(data, {
 			onSuccess() {
 				toast.success('Successfully added employee!', {

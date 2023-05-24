@@ -10,7 +10,12 @@ import { CreateEmployee } from 'common/contracts/api/payload/employee';
 import { CustomInput } from 'components/Atoms/CustomInput';
 
 const validationSchema = yup.object({
-	email: yup.string().required('Required field').email('Email must be valid'),
+	email: yup
+		.string()
+		.required('Required field')
+		.email('Email must be valid')
+		.lowercase('All letters need to be lowercase')
+		.strict(true),
 	dateOfBirth: yup.string().required('Required field'),
 	dateOfEmployment: yup.string().required('Required field'),
 	homeAddress: yup.object({
@@ -53,11 +58,13 @@ export const EmployeeForm: FC<EmployeeFormProps> = ({
 	const {
 		register,
 		handleSubmit,
+		getValues,
 		formState: { errors },
 	} = useForm<CreateEmployee>({
 		defaultValues: () => getDefaultValues(),
 		resolver: yupResolver(validationSchema),
 	});
+	console.log(getValues(), 'getValues');
 
 	const handleCancel = () => {
 		router.back();

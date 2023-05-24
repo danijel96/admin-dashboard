@@ -22,6 +22,7 @@ import { ModalTypes } from 'components/Modal/ModalTypes';
 import { Pagination } from 'components/Pagination/Pagination';
 import { Table } from 'components/Table/Table';
 import { tableHeads } from 'common/constants/table.constants';
+import { SpinnerLoader } from 'components/Atoms/SpinnerLoader';
 
 const DeletedEmployees: NextPage = () => {
 	const isMobile = useMedia(`(max-width: ${BREAKPOINTS.SM})`, true);
@@ -68,6 +69,10 @@ const DeletedEmployees: NextPage = () => {
 	const toggleDeleteEmployeeModal = () => {
 		setDeleteEmployeeModal(!deleteEmployeeModal);
 	};
+
+	if (employeesQuery.isLoading) {
+		return <SpinnerLoader />;
+	}
 
 	return (
 		<MainLayout

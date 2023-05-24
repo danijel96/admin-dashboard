@@ -88,7 +88,6 @@ export const ModalTypes: FC<PropsWithChildren<ModalTypesProps>> = ({
 		return <span />;
 	};
 	const renderIcon = () => {
-		// eslint-disable-next-line no-undef
 		let icon;
 		if (type === 'warning') icon = <WarningIcon />;
 		if (type === 'success')
