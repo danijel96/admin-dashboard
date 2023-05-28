@@ -1,3 +1,4 @@
+import { XMarkIcon } from '@heroicons/react/24/outline';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { NextPage } from 'next';
@@ -51,13 +52,16 @@ const Home: NextPage = () => {
 	const employeesQuery = useQuery({
 		queryKey: [
 			QUERY_KEYS.EMPLOYEES,
-			{ page: currentPage, search: debouncedSearch },
+			{
+				page: currentPage,
+				search: debouncedSearch || undefined,
+			},
 		],
 		queryFn: () =>
 			getAllEmployeesAPI({
 				limit: DEFAULT_PAGE_SIZE_LIMIT,
 				page: currentPage,
-				search: debouncedSearch,
+				search: debouncedSearch || undefined,
 			}),
 		retry: 1,
 		refetchOnMount: true,
@@ -77,6 +81,7 @@ const Home: NextPage = () => {
 			query: { employeeId: id },
 		});
 	};
+
 	const queryClient = useQueryClient();
 
 	const handleDeleteEmployee = () => {
@@ -125,10 +130,22 @@ const Home: NextPage = () => {
 				</div>
 				<CustomInput
 					id="search"
-					className="max-w-xs mb-3"
+					wrapperClassName="max-w-xs mb-3"
 					placeholder="Search by name, email, phone or city"
 					value={search}
 					onChange={handleSearchFilter}
+					icon={
+						search ? (
+							<XMarkIcon
+								color="black"
+								width={16}
+								className="cursor-pointer"
+							/>
+						) : (
+							<></>
+						)
+					}
+					iconFunction={() => setSearch('')}
 				/>
 				<Table
 					theads={tableHeads}

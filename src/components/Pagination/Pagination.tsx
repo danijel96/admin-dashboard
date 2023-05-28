@@ -9,6 +9,7 @@ interface PaginationProps {
 	totalCount: number;
 	onPageChange: (no: number) => void;
 	pageSize?: number;
+	onLimitChange?: (no: number) => void;
 	className?: string;
 }
 
@@ -17,6 +18,7 @@ export const Pagination: FC<PaginationProps> = ({
 	totalCount,
 	onPageChange,
 	pageSize = 5,
+	onLimitChange,
 	className,
 }) => {
 	const siblingCount = 1;
@@ -40,46 +42,66 @@ export const Pagination: FC<PaginationProps> = ({
 
 	return (
 		<ul className={clsx('pagination-container', className)}>
-			<li
-				className={clsx('pagination-item', {
-					disabled: currentPage === 1,
-				})}
-				onClick={onPrevious}
-			>
-				<div className="arrow left" />
-			</li>
-			{paginationRange?.map((pageNumber) => {
-				if (pageNumber === DOTS) {
+			<div className="flex">
+				<li
+					className={clsx('pagination-item', {
+						disabled: currentPage === 1,
+					})}
+					onClick={onPrevious}
+				>
+					<div className="arrow left" />
+				</li>
+				{paginationRange?.map((pageNumber) => {
+					if (pageNumber === DOTS) {
+						return (
+							<li
+								key={pageNumber}
+								className="pagination-item dots"
+							>
+								&#8230;
+							</li>
+						);
+					}
+
 					return (
 						<li
 							key={pageNumber}
-							className="pagination-item dots"
+							className={clsx('pagination-item', {
+								selected: pageNumber === currentPage,
+							})}
+							onClick={() => onPageChange(+pageNumber)}
 						>
-							&#8230;
+							{pageNumber}
 						</li>
 					);
-				}
-
-				return (
-					<li
-						key={pageNumber}
-						className={clsx('pagination-item', {
-							selected: pageNumber === currentPage,
-						})}
-						onClick={() => onPageChange(+pageNumber)}
-					>
-						{pageNumber}
-					</li>
-				);
-			})}
-			<li
-				className={clsx('pagination-item', {
-					disabled: currentPage === lastPage,
 				})}
-				onClick={onNext}
-			>
-				<div className="arrow right" />
-			</li>
+				<li
+					className={clsx('pagination-item', {
+						disabled: currentPage === lastPage,
+					})}
+					onClick={onNext}
+				>
+					<div className="arrow right" />
+				</li>
+			</div>
+
+			{onLimitChange && (
+				<div className="limit-wrapper relative sm:absolute right-2 flex">
+					<p>Page size: &nbsp;</p>
+					<select
+						name="limit"
+						id="limit"
+						onChange={(e) => onLimitChange(+e.target.value)}
+						value={pageSize}
+					>
+						<option value="2">2</option>
+						<option value="5">5</option>
+						<option value="10">10</option>
+						<option value="20">20</option>
+					</select>
+					<p>&nbsp; Total: {totalCount}</p>
+				</div>
+			)}
 		</ul>
 	);
 };

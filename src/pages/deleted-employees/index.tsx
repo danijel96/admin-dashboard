@@ -30,15 +30,16 @@ const DeletedEmployees: NextPage = () => {
 	const router = useRouter();
 
 	const [currentPage, setCurrentPage] = useState(1);
+	const [limit, setLimit] = useState(DEFAULT_PAGE_SIZE_LIMIT);
 	const [employeeId, setEmployeeId] = useState('');
 	const [deleteEmployeeModal, setDeleteEmployeeModal] = useState(false);
 
 	const employeesQuery = useQuery({
-		queryKey: [QUERY_KEYS.DELETED_EMPLOYEES, { page: currentPage }],
+		queryKey: [QUERY_KEYS.DELETED_EMPLOYEES, { page: currentPage, limit }],
 		queryFn: () =>
 			getDeletedEmployeesAPI({
 				page: currentPage,
-				limit: DEFAULT_PAGE_SIZE_LIMIT,
+				limit,
 			}),
 	});
 
@@ -121,7 +122,8 @@ const DeletedEmployees: NextPage = () => {
 						currentPage={currentPage || 1}
 						totalCount={employeesQuery.data?.totalResults}
 						onPageChange={(p) => setCurrentPage(p)}
-						pageSize={DEFAULT_PAGE_SIZE_LIMIT}
+						pageSize={limit}
+						onLimitChange={(limit) => setLimit(limit)}
 					/>
 				)}
 			</main>

@@ -64,7 +64,6 @@ export const EmployeeForm: FC<EmployeeFormProps> = ({
 		defaultValues: () => getDefaultValues(),
 		resolver: yupResolver(validationSchema),
 	});
-	console.log(getValues(), 'getValues');
 
 	const handleCancel = () => {
 		router.back();

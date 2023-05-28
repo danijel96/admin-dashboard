@@ -10,7 +10,7 @@ export const QUERY_KEYS = {
 export const API_ENDPOINTS = {
 	EMPLOYEES: {
 		INDEX: '/employees',
-		ID: '/employees/id/',
+		ID: '/employees/',
 		NAME: '/employees/name/',
 		DELETED: '/employees/deleted',
 		SOFT_DELETE: '/employees/soft-delete/',
