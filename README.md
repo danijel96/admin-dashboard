@@ -22,4 +22,12 @@ Live demo of my app - [admin-dashboard-live](https://admin-dashboard-danijel96.v
 
 ### What do you can work in this app?
 
-You can do all CRUD (create, read, update & delete) operations over employees. In the main page exists pagination with a set limit of 2 results. I also implemented soft delete so you can see list of deleted employees and to do permanent delete there.
+- Create employees
+- Page with list of all employees
+- Edit employees
+- Soft delete of employee
+- Page with list of deleted employees
+- Permanent delete of employee
+- Pagination on both pages
+- Changeable limit for table data
+- Search filter on list all employees page

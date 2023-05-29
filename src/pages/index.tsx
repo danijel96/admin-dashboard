@@ -71,7 +71,6 @@ const Home: NextPage = () => {
 				search: debouncedSearch || undefined,
 			}),
 		retry: 1,
-		refetchOnMount: true,
 	});
 
 	const deleteEmployeeMutation = useMutation({
@@ -98,6 +97,7 @@ const Home: NextPage = () => {
 					id: 'deleteEmployee',
 				});
 				queryClient.invalidateQueries([QUERY_KEYS.EMPLOYEES]);
+				queryClient.invalidateQueries([QUERY_KEYS.DELETED_EMPLOYEES]);
 			},
 			onError(error) {
 				const axiosError = error as AxiosError<ResponseErrorDTO>;
