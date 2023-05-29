@@ -41,8 +41,12 @@ export const EmployeeForm: FC<EmployeeFormProps> = ({
 
 	const getDefaultValues = async () => {
 		return {
-			dateOfBirth: initialData?.dateOfBirth || '',
-			dateOfEmployment: initialData?.dateOfEmployment || '',
+			dateOfBirth: initialData?.dateOfBirth
+				? new Date(initialData?.dateOfBirth).toISOString().split('T')[0]
+				: '',
+			dateOfEmployment: initialData?.dateOfEmployment
+				? new Date(initialData?.dateOfEmployment).toISOString().split('T')[0]
+				: '',
 			email: initialData?.email || '',
 			homeAddress: initialData?.homeAddress || {
 				ZIPCode: '',
@@ -58,7 +62,6 @@ export const EmployeeForm: FC<EmployeeFormProps> = ({
 	const {
 		register,
 		handleSubmit,
-		getValues,
 		formState: { errors },
 	} = useForm<CreateEmployee>({
 		defaultValues: () => getDefaultValues(),
