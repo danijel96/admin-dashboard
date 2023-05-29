@@ -5,11 +5,9 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
-import { useMedia } from 'react-use';
 
 // internal imports
 import { QUERY_KEYS } from 'common/constants/api.constants';
-import { BREAKPOINTS } from 'common/constants/global.constants';
 import { ROUTES } from 'common/constants/routes';
 import { CreateEmployee } from 'common/contracts/api/payload/employee';
 import { ResponseErrorDTO } from 'common/contracts/api/response/error.contracts';
@@ -23,8 +21,6 @@ import { EmployeeForm } from 'components/Employee/EmployeeForm';
 import { MainLayout } from 'components/Layout/MainLayout';
 
 const EditEmployee: NextPage = () => {
-	const isMobile = useMedia(`(max-width: ${BREAKPOINTS.SM})`, true);
-
 	const router = useRouter();
 
 	const [employeeId] = useState(router.asPath.split('=')[1]);
@@ -74,9 +70,9 @@ const EditEmployee: NextPage = () => {
 			wrapperClassName="edit-employee-page"
 			headTitle="Edit Employee"
 		>
-			<div className="flex justify-center relative py-2">
+			<div className="flex justify-center relative py-5">
 				<BackButton className="absolute left-0" />
-				<p className="text-center text-xl  font-bold text-yellow-500">
+				<p className="text-center text-2xl font-bold text-yellow-500">
 					Edit Employee
 				</p>
 			</div>

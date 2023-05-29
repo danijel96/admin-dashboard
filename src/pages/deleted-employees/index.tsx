@@ -1,36 +1,35 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { NextPage } from 'next';
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
-import { useMedia } from 'react-use';
 
 // internal imports
 import {
 	DEFAULT_PAGE_SIZE_LIMIT,
 	QUERY_KEYS,
 } from 'common/constants/api.constants';
-import { BREAKPOINTS } from 'common/constants/global.constants';
+import { deletedEmployeesTableHeads } from 'common/constants/table.constants';
 import { ResponseErrorDTO } from 'common/contracts/api/response/error.contracts';
+import { useLocalStorage } from 'common/hooks/useLocalStorage';
 import {
 	getDeletedEmployeesAPI,
 	permanentDeleteEmployeeAPI,
 } from 'common/services/api/employees';
+import { formatDateTime } from 'common/utils/date.utils';
+import { SpinnerLoader } from 'components/Atoms/SpinnerLoader';
 import { MainLayout } from 'components/Layout/MainLayout';
 import { ModalTypes } from 'components/Modal/ModalTypes';
 import { Pagination } from 'components/Pagination/Pagination';
 import { Table } from 'components/Table/Table';
-import { tableHeads } from 'common/constants/table.constants';
-import { SpinnerLoader } from 'components/Atoms/SpinnerLoader';
 
 const DeletedEmployees: NextPage = () => {
-	const isMobile = useMedia(`(max-width: ${BREAKPOINTS.SM})`, true);
-
-	const router = useRouter();
-
 	const [currentPage, setCurrentPage] = useState(1);
-	const [limit, setLimit] = useState(DEFAULT_PAGE_SIZE_LIMIT);
+	const [limit, setLimit] = useLocalStorage(
+		'page-limit',
+		DEFAULT_PAGE_SIZE_LIMIT
+	);
+
 	const [employeeId, setEmployeeId] = useState('');
 	const [deleteEmployeeModal, setDeleteEmployeeModal] = useState(false);
 
@@ -83,22 +82,32 @@ const DeletedEmployees: NextPage = () => {
 			<main className="grow my-5">
 				<p className="mb-5">Deleted Employees</p>
 				<Table
-					theads={tableHeads}
+					theads={deletedEmployeesTableHeads}
 					dataCount={employeesQuery.data?.data?.length ?? 0}
 					noDataText="No deleted employees data"
 				>
 					{employeesQuery.data?.data?.length &&
 						employeesQuery.data?.data.map((employee) => (
 							<tr key={employee._id}>
-								<td data-label="Name">{employee.name}</td>
-								<td data-label="Email">{employee.email}</td>
-								<td data-label="Phone number">{employee.phoneNumber}</td>
-								<td data-label="Date of employment">
-									{employee.dateOfEmployment}
+								<td data-label={deletedEmployeesTableHeads[0].name}>
+									{employee.name}
 								</td>
-								<td data-label="City">{employee.homeAddress.city}</td>
+								<td data-label={deletedEmployeesTableHeads[1].name}>
+									{employee.email}
+								</td>
+								<td data-label={deletedEmployeesTableHeads[2].name}>
+									{employee.phoneNumber}
+								</td>
+								{employee.deletedAt && (
+									<td data-label={deletedEmployeesTableHeads[3].name}>
+										{formatDateTime(employee.deletedAt)}
+									</td>
+								)}
+								<td data-label={deletedEmployeesTableHeads[4].name}>
+									{employee.homeAddress.city}
+								</td>
 								<td
-									data-label="Actions"
+									data-label={deletedEmployeesTableHeads[5].name}
 									className="min-w-[170px]"
 								>
 									<div>

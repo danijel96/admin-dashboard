@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { forwardRef } from 'react';
 
 type ConditionalProps =
@@ -61,12 +62,13 @@ export const CustomInput = forwardRef<HTMLInputElement, Props>(
 					<input
 						{...props}
 						type={type}
-						className={`py-2 px-2 rounded-md border text-[16px] font-normal border-grey-grey800 placeholder:text-black placeholder:text-sm w-full ${
-							className || ''
-						} ${icon && iconPosition === 'right' ? 'pr-10' : ''} ${
-							icon && iconPosition === 'left' ? 'pl-10' : ''
-						}
-            `}
+						className={clsx(
+							'py-2 px-2 rounded-md border text-[16px] font-normal border-grey-grey800 placeholder:text-black placeholder:text-sm w-full',
+							className || '',
+							icon && iconPosition === 'right' ? 'pr-10' : '',
+							icon && iconPosition === 'left' ? 'pl-10' : '',
+							errors && 'border-red-500 border-1'
+						)}
 						ref={ref}
 						id={id}
 					/>
@@ -83,9 +85,7 @@ export const CustomInput = forwardRef<HTMLInputElement, Props>(
 						</div>
 					)}
 				</div>
-				{errors !== '' && (
-					<p className="text-error-main text-xs mt-1">{errors}</p>
-				)}
+				{errors !== '' && <p className="text-red-500 text-xs mt-1">{errors}</p>}
 			</div>
 		);
 	}

@@ -15,12 +15,14 @@ import {
 } from 'common/constants/api.constants';
 import { BREAKPOINTS } from 'common/constants/global.constants';
 import { ROUTES } from 'common/constants/routes';
-import { tableHeads } from 'common/constants/table.constants';
+import { employeesTableHeads } from 'common/constants/table.constants';
 import { ResponseErrorDTO } from 'common/contracts/api/response/error.contracts';
+import { useLocalStorage } from 'common/hooks/useLocalStorage';
 import {
 	getAllEmployeesAPI,
 	softDeleteEmployeeAPI,
 } from 'common/services/api/employees';
+import { formatDate } from 'common/utils/date.utils';
 import { CustomInput } from 'components/Atoms/CustomInput';
 import { SpinnerLoader } from 'components/Atoms/SpinnerLoader';
 import { MainLayout } from 'components/Layout/MainLayout';
@@ -34,6 +36,10 @@ const Home: NextPage = () => {
 	const router = useRouter();
 
 	const [currentPage, setCurrentPage] = useState(1);
+	const [limit, setLimit] = useLocalStorage(
+		'page-limit',
+		DEFAULT_PAGE_SIZE_LIMIT
+	);
 	const [employeeId, setEmployeeId] = useState('');
 	const [deleteEmployeeModal, setDeleteEmployeeModal] = useState(false);
 
@@ -54,12 +60,13 @@ const Home: NextPage = () => {
 			QUERY_KEYS.EMPLOYEES,
 			{
 				page: currentPage,
+				limit,
 				search: debouncedSearch || undefined,
 			},
 		],
 		queryFn: () =>
 			getAllEmployeesAPI({
-				limit: DEFAULT_PAGE_SIZE_LIMIT,
+				limit,
 				page: currentPage,
 				search: debouncedSearch || undefined,
 			}),
@@ -148,22 +155,30 @@ const Home: NextPage = () => {
 					iconFunction={() => setSearch('')}
 				/>
 				<Table
-					theads={tableHeads}
+					theads={employeesTableHeads}
 					noDataText="No employees data"
 					dataCount={employeesQuery.data?.data?.length ?? 0}
 				>
 					{employeesQuery.data?.data?.length &&
 						employeesQuery.data?.data.map((employee) => (
 							<tr key={employee._id}>
-								<td data-label="Name">{employee.name}</td>
-								<td data-label="Email">{employee.email}</td>
-								<td data-label="Phone number">{employee.phoneNumber}</td>
-								<td data-label="Date of employment">
-									{employee.dateOfEmployment}
+								<td data-label={employeesTableHeads[0].name}>
+									{employee.name}
 								</td>
-								<td data-label="City">{employee.homeAddress.city}</td>
+								<td data-label={employeesTableHeads[1].name}>
+									{employee.email}
+								</td>
+								<td data-label={employeesTableHeads[2].name}>
+									{employee.phoneNumber}
+								</td>
+								<td data-label={employeesTableHeads[3].name}>
+									{formatDate(employee.dateOfEmployment)}
+								</td>
+								<td data-label={employeesTableHeads[4].name}>
+									{employee.homeAddress.city}
+								</td>
 								<td
-									data-label="Actions"
+									data-label={employeesTableHeads[5].name}
 									className="min-w-[170px]"
 								>
 									<div>
@@ -193,7 +208,8 @@ const Home: NextPage = () => {
 						currentPage={currentPage || 1}
 						totalCount={employeesQuery.data?.totalResults}
 						onPageChange={(p) => setCurrentPage(p)}
-						pageSize={DEFAULT_PAGE_SIZE_LIMIT}
+						pageSize={limit}
+						onLimitChange={(limit) => setLimit(limit)}
 					/>
 				)}
 				<Link
