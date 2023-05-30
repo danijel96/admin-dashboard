@@ -214,7 +214,7 @@ const Home: NextPage = () => {
 				)}
 				<Link
 					href={ROUTES.DELETED_EMPLOYEES}
-					className="text-red-600 hover:underline mt-2 flex"
+					className="text-red-600 hover:underline mt-2 inline-flex"
 				>
 					See list of deleted employees
 				</Link>

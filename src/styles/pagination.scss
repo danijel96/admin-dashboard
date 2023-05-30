@@ -3,24 +3,31 @@
 	display: flex;
 	justify-content: center;
 }
-.pagination-container {
-	display: flex;
-	list-style-type: none;
-
+.pagination-wrapper {
 	&:has(.limit-wrapper) {
 		position: relative;
 
-        @media screen and (max-width: 600px) {
-            flex-direction: column;
-            align-items: center;
-        }
+		@media screen and (max-width: 640px) {
+			flex-direction: column;
+			align-items: center;
+		}
 	}
 
-    .limit-wrapper {
-        @media screen and (max-width: 600px) {
-            margin-top: 10px;
-        }
-    }
+	.limit-wrapper {
+		position: absolute;
+		display: flex;
+		right: 8px;
+
+		@media screen and (max-width: 640px) {
+			margin-top: 10px;
+			position: relative;
+		}
+	}
+}
+
+.pagination-list {
+	display: flex;
+	list-style-type: none;
 
 	.pagination-item {
 		padding: 0 12px;

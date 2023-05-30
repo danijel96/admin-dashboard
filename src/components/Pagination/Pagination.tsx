@@ -41,8 +41,8 @@ export const Pagination: FC<PaginationProps> = ({
 	let lastPage = paginationRange[paginationRange.length - 1];
 
 	return (
-		<ul className={clsx('pagination-container', className)}>
-			<div className="flex">
+		<div className={clsx('pagination-wrapper', className)}>
+			<ul className={clsx('pagination-list')}>
 				<li
 					className={clsx('pagination-item', {
 						disabled: currentPage === 1,
@@ -83,10 +83,10 @@ export const Pagination: FC<PaginationProps> = ({
 				>
 					<div className="arrow right" />
 				</li>
-			</div>
+			</ul>
 
 			{onLimitChange && (
-				<div className="limit-wrapper relative sm:absolute right-2 flex">
+				<div className="limit-wrapper">
 					<p>Page size: &nbsp;</p>
 					<select
 						name="limit"
@@ -102,6 +102,6 @@ export const Pagination: FC<PaginationProps> = ({
 					<p>&nbsp; Total: {totalCount}</p>
 				</div>
 			)}
-		</ul>
+		</div>
 	);
 };
