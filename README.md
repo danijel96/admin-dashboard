@@ -17,6 +17,7 @@ Live demo of my app - [admin-dashboard-live](https://admin-dashboard-danijel96.v
 - Tailwind
 - Sass
 - React hook form with yup validation
+- React Testing Library & Jest
 
 ---
 

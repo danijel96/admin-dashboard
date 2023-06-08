@@ -58,7 +58,10 @@ export const CustomInput = forwardRef<HTMLInputElement, Props>(
 					</label>
 				)}
 
-				<div className="relative">
+				<div
+					data-testid="input-icon-element"
+					className="relative"
+				>
 					<input
 						{...props}
 						type={type}
@@ -71,6 +74,7 @@ export const CustomInput = forwardRef<HTMLInputElement, Props>(
 						)}
 						ref={ref}
 						id={id}
+						data-testid="input-element"
 					/>
 					{icon && (
 						<div
@@ -80,6 +84,7 @@ export const CustomInput = forwardRef<HTMLInputElement, Props>(
 									: ' top-[50%] left-4'
 							}`}
 							onClick={() => iconFunction && iconFunction(!iconState)}
+							data-testid="icon-element"
 						>
 							{icon}
 						</div>

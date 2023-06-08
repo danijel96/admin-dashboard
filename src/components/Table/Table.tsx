@@ -31,6 +31,7 @@ export const Table: FC<PropsWithChildren<TableProps>> = ({
 								<th
 									key={index}
 									className={theadsClassName}
+									role="columnheader"
 								>
 									{thead.name}
 								</th>
@@ -38,7 +39,7 @@ export const Table: FC<PropsWithChildren<TableProps>> = ({
 						})}
 					</tr>
 				</thead>
-				<tbody>
+				<tbody data-testid='tbody-element'>
 					{dataCount !== 0 ? (
 						children
 					) : (

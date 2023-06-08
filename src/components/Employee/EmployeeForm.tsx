@@ -74,6 +74,7 @@ export const EmployeeForm: FC<EmployeeFormProps> = ({
 
 	return (
 		<form
+			role="form"
 			onSubmit={handleSubmit(onSubmit)}
 			className="flex flex-col gap-y-3 px-5 min-w-[350px] max-w-[400px] justify-center mx-auto"
 		>

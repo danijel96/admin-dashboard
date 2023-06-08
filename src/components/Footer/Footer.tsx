@@ -1,11 +1,11 @@
 import Link from 'next/link';
 import { FC } from 'react';
+import { useMedia } from 'react-use';
 
 // internal imports
 import { BREAKPOINTS } from 'common/constants/global.constants';
 import { currentYear } from 'common/utils/date.utils';
 import { GithubLogo, LinkedinLogo } from 'components/Icons/Icons';
-import { useMedia } from 'react-use';
 
 export const Footer: FC = () => {
 	const isMobile = useMedia(`(max-width: ${BREAKPOINTS.SM})`, true);
