@@ -18,7 +18,7 @@ export const BackButton: FC<BackButtonProps> = ({ className }) => {
 		<div className={clsx('w-fit px-2.5', className)}>
 			<p
 				onClick={goBack}
-				className="flex cursor-pointer items-center text-black"
+				className="flex cursor-pointer items-center text-font-secondary"
 			>
 				<ArrowLeftIcon
 					width={20}

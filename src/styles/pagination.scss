@@ -3,6 +3,7 @@
 	display: flex;
 	justify-content: center;
 }
+
 .pagination-wrapper {
 	&:has(.limit-wrapper) {
 		position: relative;
@@ -34,7 +35,7 @@
 		height: 32px;
 		text-align: center;
 		margin: auto 4px;
-		color: rgba(0, 0, 0, 0.87);
+		color: rgba(var(--font-primary) / 1);
 		display: flex;
 		box-sizing: border-box;
 		align-items: center;
@@ -48,13 +49,14 @@
 			background-color: transparent;
 			cursor: default;
 		}
+
 		&:hover {
-			background-color: rgba(0, 0, 0, 0.04);
+			background-color: rgba(var(--hover) / 0.8);
 			cursor: pointer;
 		}
 
 		&.selected {
-			background-color: rgba(0, 0, 0, 0.08);
+			background-color: rgba(var(--hover));
 		}
 
 		.arrow {
@@ -65,9 +67,10 @@
 				/* By using an em scale, the arrows will size with the font */
 				display: inline-block;
 				width: 0.4em;
+				color: rgba(var(--font-primary) / 1);
 				height: 0.4em;
-				border-right: 0.12em solid rgba(0, 0, 0, 0.87);
-				border-top: 0.12em solid rgba(0, 0, 0, 0.87);
+				border-right: 0.12em solid rgba(var(--font-primary) / 1);
+				border-top: 0.12em solid rgba(var(--font-primary) / 1);
 			}
 
 			&.left {
@@ -81,10 +84,13 @@
 
 		&.disabled {
 			pointer-events: none;
+			cursor: not-allowed;
+			background-color: transparent;
+			color: rgba(var(--font-primary) / 1);
 
 			.arrow::before {
-				border-right: 0.12em solid rgba(0, 0, 0, 0.43);
-				border-top: 0.12em solid rgba(0, 0, 0, 0.43);
+				border-right: 0.12em solid rgba(var(--font-primary) / 0.5);
+				border-top: 0.12em solid rgba(var(--font-primary) / 0.5);
 			}
 
 			&:hover {

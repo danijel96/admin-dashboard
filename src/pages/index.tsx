@@ -29,6 +29,7 @@ import { MainLayout } from 'components/Layout/MainLayout';
 import { ModalTypes } from 'components/Modal/ModalTypes';
 import { Pagination } from 'components/Pagination/Pagination';
 import { Table } from 'components/Table/Table';
+import { Employee } from 'common/contracts/employee';
 
 const Home: NextPage = () => {
 	const isMobile = useMedia(`(max-width: ${BREAKPOINTS.SM})`, true); // true is defaultState parameter for ssr to avoid hydration error
@@ -40,7 +41,7 @@ const Home: NextPage = () => {
 		'page-limit',
 		DEFAULT_PAGE_SIZE_LIMIT
 	);
-	const [employeeId, setEmployeeId] = useState('');
+	const [employee, setEmployee] = useState<Employee | null>(null);
 	const [deleteEmployeeModal, setDeleteEmployeeModal] = useState(false);
 
 	// Filter input for searching data from table
@@ -91,7 +92,7 @@ const Home: NextPage = () => {
 	const queryClient = useQueryClient();
 
 	const handleDeleteEmployee = () => {
-		deleteEmployeeMutation.mutate(employeeId, {
+		deleteEmployeeMutation.mutate(employee._id, {
 			onSuccess() {
 				toast.success('Successfully deleted employee!', {
 					id: 'deleteEmployee',
@@ -123,7 +124,7 @@ const Home: NextPage = () => {
 
 	return (
 		<MainLayout
-			wrapperClassName="employees-page min-w-[320px] bg-white"
+			wrapperClassName="employees-page min-w-[320px] bg-background"
 			headTitle="Employees"
 		>
 			<main className="grow">
@@ -191,7 +192,7 @@ const Home: NextPage = () => {
 										<button
 											onClick={() => {
 												toggleDeleteEmployeeModal();
-												setEmployeeId(employee._id);
+												setEmployee(employee);
 											}}
 											className="btn btn-red"
 										>
@@ -215,6 +216,7 @@ const Home: NextPage = () => {
 				<Link
 					href={ROUTES.DELETED_EMPLOYEES}
 					className="text-red-600 hover:underline mt-2 inline-flex"
+					prefetch={false}
 				>
 					See list of deleted employees
 				</Link>
@@ -226,7 +228,9 @@ const Home: NextPage = () => {
 				warningButtonText="YES"
 				warningButtonAction={handleDeleteEmployee}
 			>
-				<p>Da li zelite obrisati ovog zaposlenog?</p>
+				<p className="text-font-primary">
+					Do you want to delete this employee: <b>{employee?.name}</b>?
+				</p>
 			</ModalTypes>
 		</MainLayout>
 	);

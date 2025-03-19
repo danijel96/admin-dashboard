@@ -21,17 +21,17 @@ export const SpinnerLoader: FC<SpinnerLoaderProps> = ({
 				'flex items-center justify-center z-10',
 				component
 					? 'bg-transparent w-40 h-36 grid place-items-center place-content-center absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]'
-					: 'bg-white fixed h-screen w-screen left-0 top-0',
+					: 'bg-background fixed h-screen w-screen left-0 top-0',
 				className
 			)}
 		>
 			<button
 				type="button"
-				className="flex items-center rounded-lg bg-primary-main px-4 py-2 text-black"
+				className="flex items-center rounded-lg bg-primary-main px-4 py-2 text-font-primary"
 				disabled
 			>
 				<svg
-					className="mr-3 h-5 w-5 animate-spin text-black"
+					className="mr-3 h-5 w-5 animate-spin text-font-primary"
 					xmlns="http://www.w3.org/2000/svg"
 					fill="none"
 					viewBox="0 0 24 24"

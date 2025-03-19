@@ -61,7 +61,7 @@ export const BaseModal: FC<PropsWithChildren<BaseModalProps>> = ({
 						>
 							<Dialog.Panel
 								className={clsx(
-									'relative w-[90vw] max-w-lg transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full',
+									'relative w-[90vw] max-w-lg transform overflow-hidden rounded-2xl bg-background text-left shadow-xl transition-all sm:my-8 sm:w-full',
 									className
 								)}
 							>
@@ -81,7 +81,7 @@ export const BaseModal: FC<PropsWithChildren<BaseModalProps>> = ({
 
 											<Dialog.Title
 												as="h4"
-												className="flex items-center text-lg font-bold leading-6 text-gray-900"
+												className="flex items-center text-lg font-bold leading-6 text-font-primary"
 											>
 												{title}
 											</Dialog.Title>

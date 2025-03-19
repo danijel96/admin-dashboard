@@ -160,6 +160,7 @@ export const EmployeeForm: FC<EmployeeFormProps> = ({
 			</button>
 			<button
 				type="button"
+				className="text-font-primary"
 				onClick={handleCancel}
 			>
 				Cancel

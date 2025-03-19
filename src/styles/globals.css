@@ -2,6 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+	@apply transition-colors duration-200;
+}
+
+/*.light {*/
+:root {
+	--background: 245 245 245; /* Soft light gray */
+	--secondary: 33 33 33; /* Soft light gray */
+	--font-primary: 20 20 20; /* Dark charcoal */
+	--font-secondary: 80 80 80; /* Subtle gray */
+	--accent: 50 120 255; /* Vibrant blue for highlights */
+	--border: 220 220 220; /* Light gray borders */
+	--hover: 230 230 230; /* Slight hover effect */
+	--toggle-bg: 240 235 157; /* svetlo zuta */
+	--toggle-fg: 255 208 0; /* tamno zuta */
+}
+
+.dark {
+	--background: 33 33 33; /* Charcoal */
+	--secondary: 245 245 245; /* Soft white */
+	--font-primary: 255 255 255; /* White */
+	--font-secondary: 200 195 215; /* Slightly brighter pastel purple */
+	--accent: 130 170 255; /* Soft blue for highlights */
+	--border: 80 80 80; /* Neutral gray for subtle borders */
+	--hover: 100 100 100; /* Slightly lighter hover effect */
+	--toggle-bg: 40 52 82; /* tamno plava teget */
+	--toggle-fg: 0 166 255; /* svetlo plava */
+}
+
+/*@media (prefers-colors-scheme:dark) {}*/
+/* :root[data-theme='dark'] */
+/* :root[data-theme='cool'] */
+/* <html data-theme="cool"> */
+
 .container {
 	max-width: 100%;
 	margin: 0 auto;
@@ -18,10 +52,6 @@ td {
 	padding: 8px;
 	text-align: left;
 	border-bottom: 1px solid #ddd;
-}
-
-th {
-	background-color: #f2f2f2;
 }
 
 @media screen and (max-width: 600px) {
@@ -57,9 +87,9 @@ th {
 	}
 }
 
-body {
+/*body {
 	color: #000;
-}
+}*/
 
 @layer components {
 	.btn {

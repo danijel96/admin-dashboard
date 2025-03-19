@@ -54,7 +54,7 @@ export const Drawer: FC<PropsWithChildren<DrawerProps>> = ({
 						leaveTo="translate-y-full"
 					>
 						<div
-							className="flex flex-col justify-between bg-white z-50
+							className="flex flex-col justify-between bg-background z-50
                             w-full p-6 text-left
                             align-middle shadow-xl rounded-t-2xl"
 						>

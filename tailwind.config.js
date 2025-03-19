@@ -36,6 +36,17 @@ module.exports = {
 				'gradient-conic':
 					'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
 			},
+			colors: {
+				background: 'rgba(var(--background))',
+				secondary: 'rgba(var(--secondary))',
+				'font-primary': 'rgba(var(--font-primary))',
+				'font-secondary': 'rgba(var(--font-secondary))',
+				accent: 'rgba(var(--accent))',
+				border: 'rgba(var(--border))',
+				hover: 'rgba(var(--hover))',
+				'toggle-bg': 'rgba(var(--toggle-bg))',
+				'toggle-fg': 'rgba(var(--toggle-fg))',
+			},
 		},
 	},
 	plugins: [],

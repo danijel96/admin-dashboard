@@ -37,6 +37,7 @@ export default function App({ Component, pageProps }: AppProps) {
 				)}
 			</Toaster>
 			<Component {...pageProps} />
+
 			<ReactQueryDevtools initialIsOpen={false} />
 		</QueryClientProvider>
 	);

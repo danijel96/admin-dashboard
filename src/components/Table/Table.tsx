@@ -23,9 +23,9 @@ export const Table: FC<PropsWithChildren<TableProps>> = ({
 }) => {
 	return (
 		<div className="container">
-			<table className={clsx('table-component', className)}>
+			<table className={clsx('table-component text-font-primary', className)}>
 				<thead>
-					<tr className="[&>*]:truncate">
+					<tr className="[&>*]:truncate [&>*]:text-font-secondary bg-border">
 						{theads.map((thead, index) => {
 							return (
 								<th
@@ -39,7 +39,7 @@ export const Table: FC<PropsWithChildren<TableProps>> = ({
 						})}
 					</tr>
 				</thead>
-				<tbody data-testid='tbody-element'>
+				<tbody data-testid="tbody-element">
 					{dataCount !== 0 ? (
 						children
 					) : (

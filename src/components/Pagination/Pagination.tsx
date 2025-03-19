@@ -86,11 +86,12 @@ export const Pagination: FC<PaginationProps> = ({
 			</ul>
 
 			{onLimitChange && (
-				<div className="limit-wrapper">
+				<div className="limit-wrapper text-font-primary">
 					<p>Page size: &nbsp;</p>
 					<select
 						name="limit"
 						id="limit"
+						className="text-black"
 						onChange={(e) => onLimitChange(+e.target.value)}
 						value={pageSize}
 					>

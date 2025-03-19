@@ -51,7 +51,7 @@ export const CustomInput = forwardRef<HTMLInputElement, Props>(
 			>
 				{label && (
 					<label
-						className="text-[12px] text-primary-lighter z-[2] w-fit mb-1 font-bold"
+						className="text-[12px] text-font-primary z-[2] w-fit mb-1 font-bold"
 						htmlFor={id}
 					>
 						{label}

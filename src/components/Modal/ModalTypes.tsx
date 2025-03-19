@@ -50,7 +50,7 @@ export const ModalTypes: FC<PropsWithChildren<ModalTypesProps>> = ({
 	};
 	const renderIconBgColor = () => {
 		let color: string = 'bg-secondary-95';
-		if (type === 'warning') color = 'bg-white';
+		if (type === 'warning') color = 'bg-background';
 		if (type === 'success') color = 'bg-primary';
 		return color;
 	};
@@ -72,7 +72,7 @@ export const ModalTypes: FC<PropsWithChildren<ModalTypesProps>> = ({
 					</button>
 
 					<button
-						className="modal-btn close-modal-btn w-full justify-center rounded-radius-50 py-4"
+						className="modal-btn close-modal-btn w-full justify-center rounded-radius-50 py-4 text-font-secondary"
 						onClick={() =>
 							cancelButtonAction ? cancelButtonAction() : toggleModal()
 						}

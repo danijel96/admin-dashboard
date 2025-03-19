@@ -15,3 +15,7 @@ export const omitEmpty = (object: Record<string, any>): Record<string, any> => {
 	});
 	return filtered;
 };
+
+export const toggleAppTheme = (theme: 'dark' | 'light') => {
+	localStorage.setItem('theme', theme);
+};
