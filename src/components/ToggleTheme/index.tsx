@@ -69,7 +69,9 @@ ToggleThemeProps) => {
 			<SunIcon
 				width={24}
 				className={clsx(
-					appTheme === 'light' ? 'fill-font-primary stroke-font-primary' : 'stroke-secondary',
+					appTheme === 'light'
+						? 'fill-font-primary stroke-font-primary'
+						: 'stroke-secondary',
 					'cursor-pointer'
 				)}
 				onClick={() => toggleAppThemeMode('light')}
@@ -84,7 +86,10 @@ ToggleThemeProps) => {
 			/>
 			<ComputerDesktopIcon
 				width={24}
-				className={clsx(appTheme === 'dark' ? 'stroke-secondary' : '', 'cursor-pointer')}
+				className={clsx(
+					appTheme === 'dark' ? 'stroke-secondary' : '',
+					'cursor-pointer'
+				)}
 				onClick={() => toggleAppThemeMode('system')}
 			/>
 		</div>

@@ -24,7 +24,7 @@ export const CustomCheckbox: FC<CheckboxProps> = ({
 				value={value}
 				checked={checked}
 				onChange={onChange}
-                data-testid='checkbox-element'
+				data-testid="checkbox-element"
 			/>
 			<span className="ml-2">{label}</span>
 		</label>
