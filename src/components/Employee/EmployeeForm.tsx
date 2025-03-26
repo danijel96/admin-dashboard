@@ -1,13 +1,14 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 // internal imports
 import { CreateEmployee } from 'common/contracts/api/payload/employee';
 import { CustomInput } from 'components/Atoms/CustomInput';
+import { AutoCompleteDropdown } from 'components/Atoms/AutoCompleteDropdown';
 
 const validationSchema = yup.object({
 	email: yup
@@ -28,6 +29,13 @@ const validationSchema = yup.object({
 	phoneNumber: yup.string().required('Required field'),
 });
 
+const countriesData = [
+	{ id: 'serbia', name: 'serbia' },
+	{ id: 'croatia', name: 'croatia' },
+	{ id: 'montenegro', name: 'montenegro' },
+	{ id: 'bosnia', name: 'bosnia' },
+];
+
 interface EmployeeFormProps {
 	onSubmit: (data: CreateEmployee) => void;
 	initialData?: CreateEmployee;
@@ -38,6 +46,22 @@ export const EmployeeForm: FC<EmployeeFormProps> = ({
 	initialData,
 }) => {
 	const router = useRouter();
+
+	const [selectedIdentifiers, setSelectedIdentifiers] = useState([]);
+
+	const [dropdownData, setDropdownData] = useState(countriesData);
+
+	console.log(dropdownData, 'dropdownData');
+
+	const changeHandler = async (inputValue: string) => {
+		if (inputValue.length < 3) return;
+
+		const filteredCountries = countriesData.filter((country) =>
+			country.name.includes(inputValue)
+		);
+
+		setDropdownData(filteredCountries);
+	};
 
 	const getDefaultValues = async () => {
 		return {
@@ -152,6 +176,34 @@ export const EmployeeForm: FC<EmployeeFormProps> = ({
 				placeholder="Enter employee city"
 				errors={errors.homeAddress?.city?.message}
 			/>
+
+			<AutoCompleteDropdown
+				dropdownData={dropdownData}
+				changeHandler={changeHandler}
+				clickOnItemHandler={(id) => {
+					const itemExist = selectedIdentifiers.some(
+						(selected) => selected.id === id
+					);
+
+					if (!itemExist) {
+						const newItem = countriesData.find((country) => country.id === id);
+						if (!newItem) {
+							return;
+						}
+						setSelectedIdentifiers([...selectedIdentifiers, newItem]);
+						return;
+					}
+					const filteredData = selectedIdentifiers.filter(
+						(item) => item.id !== id
+					);
+					setSelectedIdentifiers(filteredData);
+				}}
+				selectedIdentifiers={selectedIdentifiers}
+			/>
+			{selectedIdentifiers.map((country) => (
+				<p key={country.id}>{country.name}</p>
+			))}
+
 			<button
 				className={clsx('btn', initialData ? 'btn-yellow' : 'btn-blue')}
 				type="submit"
